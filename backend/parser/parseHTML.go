@@ -23,8 +23,9 @@ func parseResp(resp *http.Response) ([]*NewsItem, error) {
 			return
 		}
 
+		
 		s.Find("li").Each(func(j int, li *goquery.Selection) {
-
+			
 			// 标题
 			title := purifyTitle(li.Find("a").Text())
 
@@ -32,11 +33,20 @@ func parseResp(resp *http.Response) ([]*NewsItem, error) {
 			href, _ := li.Find("a").Attr("href")
 
 			// fmt.Println( href)
-			// 不知为何有时只出现网址的一部分
+			// 暂时不知为何有时只出现网址的一部分，
+			// 稍微有点意义不明，好像就是偶尔会刷出这种
+			// 基本处理方案就是考虑手动获取前缀给加上
 			
 			if !strings.HasPrefix(href, "http") {
-				return 
+				if strings.HasSuffix(href, ".html") {
+					curUrl := resp.Request.URL
+					href = strings.Replace(curUrl.String(), "index.html", href, 1)
+				} else {
+					return 
+				}
 			}
+			// fmt.Println( href)
+
 
 			innerResp, _ := GetHtmlResp(href)
 			contentDoc, _ := goquery.NewDocumentFromReader(innerResp.Body)

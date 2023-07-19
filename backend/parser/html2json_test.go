@@ -7,7 +7,7 @@ import (
 
 func TestCrawlHTML(t *testing.T) {
   
-  resString := CrawlHTML(urls[0])
+  resString := CrawlHTML(urls[2])
   t.Log(resString)
 
   // var resJsonObj NewsItem
