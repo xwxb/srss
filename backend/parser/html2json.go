@@ -2,8 +2,10 @@ package parser
 
 import (
 	"encoding/json"
-	"github.com/PuerkitoBio/goquery"
+	"log"
 	"net/http"
+
+	"github.com/PuerkitoBio/goquery"
 )
 
 type NewsItem struct {
@@ -12,12 +14,12 @@ type NewsItem struct {
 }
 
 func CrawlHTML(url string) string {
-	// 1. 获取HTML页面
-	resp, err := http.Get(url)
+
+	resp, err := GetHtmlResp(url)
+
 	if err != nil {
-		return ""
+		log.Println(err)
 	}
-	defer resp.Body.Close()
 
 	// 2. 使用goquery解析HTML
 	doc, err := goquery.NewDocumentFromReader(resp.Body)
@@ -32,6 +34,7 @@ func CrawlHTML(url string) string {
 		if !hasSpan {
 			return
 		}
+
 
 		s.Find("li").Each(func(j int, li *goquery.Selection) {
 
