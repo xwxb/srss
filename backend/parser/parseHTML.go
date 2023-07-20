@@ -1,11 +1,12 @@
 package parser
 
 import (
-	"fmt"
+	// "fmt"
 	"net/http"
 
-	"github.com/PuerkitoBio/goquery"
 	"strings"
+
+	"github.com/PuerkitoBio/goquery"
 )
 
 func parseResp(resp *http.Response) ([]*NewsItem, error) {
@@ -23,7 +24,6 @@ func parseResp(resp *http.Response) ([]*NewsItem, error) {
 			return
 		}
 
-		
 		s.Find("li").Each(func(j int, li *goquery.Selection) {
 			
 			// 标题
@@ -50,8 +50,8 @@ func parseResp(resp *http.Response) ([]*NewsItem, error) {
 
 			innerResp, _ := GetHtmlResp(href)
 			contentDoc, _ := goquery.NewDocumentFromReader(innerResp.Body)
-			content := purifyContent(contentDoc.Find("p").Text())
-			fmt.Println(content)
+			content := contentDoc.Find("p").Text()
+			// fmt.Println(content)
 			
 			news = append(news, &NewsItem{Title: title, Content: content})
 		})
