@@ -29,11 +29,10 @@
 
 <script>
 export default {
-    emits: ['close', 'submit'],
-
+    emits: ['form-submit'],
     methods: {
         submit() {
-            this.$emit('submit', this.name, this.url)
+            this.$emit('form-submit', {name: this.name, url: this.url})
             this.$emit('close')
         }
     }

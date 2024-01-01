@@ -44,7 +44,7 @@
   </div>
 
   <!-- 添加组件 -->
-  <AddSubModal id="AddSubModal" @close="showAddModal = false" @submit="handleSubmit" />
+  <AddSubModal @form-submit="handleSubmit" />
 </template>
 
 <script>
@@ -71,9 +71,14 @@ export default {
   },
 
   methods: {
-    handleSubmit(name, url) {
+    handleSubmit(formData) {
       // 添加订阅  
-      this.items.push({ title: name, url: url })
+      this.items.push({ title: formData.name, url: formData.url })
+      
+    },
+    grabDataFromUrl(url) {
+      // 从url中抓取数据
+
     }
   }
 }
